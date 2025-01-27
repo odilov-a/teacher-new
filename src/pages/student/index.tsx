@@ -39,7 +39,7 @@ const Student = () => {
             columns={columns}
             dataSource={items}
             rowKey="_id"
-            pagination={false}
+            pagination={{ pageSize: 10 }}
           />
         </Row>
       )}

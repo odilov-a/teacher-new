@@ -7,7 +7,7 @@ import { Container } from "modules";
 import Create from "./create";
 import More from "./more";
 
-const Subject = () => {
+const Problem = () => {
   const { Meta } = Card;
   const { get, queryClient, t } = useHooks();
   const [createModal, showCreateModal] = useState({ open: false, data: {} });
@@ -157,4 +157,4 @@ const Subject = () => {
   );
 };
 
-export default Subject;
+export default Problem;
