@@ -19,13 +19,13 @@ const Problem = ({ showCreateModal, createModal }: any): JSX.Element => {
     const formData = new FormData();
     formData.append("file", file);
     try {
-      const response = await fetch(
-        "http://localhost:5001/api/tests/upload",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+      const response = await fetch("http://localhost:5001/api/tests/upload", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       const result = await response.json();
       if (response.ok && result.data) {
         setFieldValue(`testCases.${index}.${type}FileUrl`, result.data.fileUrl);
