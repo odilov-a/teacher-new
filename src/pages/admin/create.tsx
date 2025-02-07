@@ -68,49 +68,49 @@ const User = ({ showEditModal, selectedCard }: any): JSX.Element => {
             <Spin spinning={isLoading} tip={t("Verifying")}>
               <div>
                 <div className="flex">
-                <Field
-                  type="text"
-                  name="firstName"
-                  label={t("First Name")}
-                  component={Fields.Input}
-                  placeholder={t("First Name")}
-                  rootClassName="mr-[10px]"
-                />
-                <Field
-                  type="text"
-                  name="lastName"
-                  label={t("Last Name")}
-                  component={Fields.Input}
-                  placeholder={t("Last Name")}
-                />
+                  <Field
+                    type="text"
+                    name="firstName"
+                    label={t("First Name")}
+                    component={Fields.Input}
+                    placeholder={t("First Name")}
+                    rootClassName="mr-[10px]"
+                  />
+                  <Field
+                    type="text"
+                    name="lastName"
+                    label={t("Last Name")}
+                    component={Fields.Input}
+                    placeholder={t("Last Name")}
+                  />
                 </div>
                 <div className="flex">
-                <Field
-                  type="text"
-                  name="username"
-                  label={t("Username")}
-                  component={Fields.Input}
-                  placeholder={t("Username")}
-                  rootClassName="mr-[10px]"
-                />
-                <Field
-                  type="password"
-                  name="password"
-                  label={t("Password")}
-                  component={Fields.Input}
-                  placeholder={t("Password")}
-                />
+                  <Field
+                    type="text"
+                    name="username"
+                    label={t("Username")}
+                    component={Fields.Input}
+                    placeholder={t("Username")}
+                    rootClassName="mr-[10px]"
+                  />
+                  <Field
+                    type="password"
+                    name="password"
+                    label={t("Password")}
+                    component={Fields.Input}
+                    placeholder={t("Password")}
+                  />
                 </div>
                 <div className="flex">
-                <Field
-                  type="text"
-                  name="phoneNumber"
-                  label={t("Phone Number")}
-                  component={Fields.Input}
-                  placeholder={t("Phone Number")}
-                  rootClassName="mr-[10px]"
-                />
-                <Field
+                  <Field
+                    type="text"
+                    name="phoneNumber"
+                    label={t("Phone Number")}
+                    component={Fields.Input}
+                    placeholder={t("Phone Number")}
+                    rootClassName="mr-[10px]"
+                  />
+                  <Field
                     name="subject"
                     isMulti={true}
                     url="/subjects"
@@ -135,6 +135,7 @@ const User = ({ showEditModal, selectedCard }: any): JSX.Element => {
                     placeholder={t("Photo")}
                     rootClassName="mb-[10px]"
                     component={Fields.FileUpload3}
+                    accept="image/png, image/jpeg, image/jpg"
                   />
                 </div>
                 <Button
