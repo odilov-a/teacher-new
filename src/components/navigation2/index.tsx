@@ -41,13 +41,12 @@ const Navigation2: React.FC = () => {
 
   return (
     <div className="h-full bg-no-repeat bg-cover bg-left">
-      <div className="flex justify-center text-center cursor-pointer pt-[30px] pb-[30px] text-[#9EA3B5]">
+      <div className="flex justify-center text-center cursor-pointer pt-[20px] text-[#9EA3B5]">
         <Link to="/">
-          <img className="w-[40px]" src={logo} alt="logo" />
+          <img className="w-[205px]" src={logo} alt="logo" />
         </Link>
       </div>
       <div className={"h-[80vh] overflow-y-scroll no-scrollbar"}>
-        {/* {filterMenuItems(helpers.menuItems, filterKeys).map((menuItem, i) => ( */}
         {helpers.menuItems.map((menuItem, i) => (
           <React.Fragment key={menuItem.key + i}>
             {/* @ts-ignore */}

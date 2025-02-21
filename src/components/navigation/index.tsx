@@ -49,7 +49,7 @@ const Navigation: React.FC = () => {
           className="mr-2 w-6 h-6 inline-block align-middle"
         />
         <Link to="/" className="align-middle">
-          {t("KIUT")}
+          {t("UZCONTEST")}
         </Link>
       </div>
       {items.map((menuItem, i) => (
