@@ -14,10 +14,19 @@ interface MenuItem {
 }
 
 const langlist = [
-  { id: 1, flag: <FlagUz />, title: "O'zbekcha", shortName: "O'z" },
-  { id: 2, flag: <FlagRu />, title: "Русский", shortName: "Ру" },
-  { id: 3, flag: <FlagEn />, title: "English", shortName: "En" },
+  { id: 1, title: "O'zbekcha", shortName: "O'z" },
+  { id: 2, title: "Русский", shortName: "Ру" },
+  { id: 3, title: "English", shortName: "En" },
 ];
+
+const settingslist = [
+  { id: 1, title: "O'zbekcha", shortName: "O'z" },
+  { id: 2, title: "Русский", shortName: "Ру" },
+  { id: 3, title: "English", shortName: "En" },
+  { id: 4, title: "Settings", shortName: "St" },
+  { id: 5, title: "Tests", shortName: "TC" },
+];
+
 
 const menuItems: MenuItem[] = [
   {
@@ -46,4 +55,4 @@ function gen4() {
     .slice(-4);
 }
 
-export { menuItems, langlist, gen4 };
+export { menuItems, langlist, gen4, settingslist };

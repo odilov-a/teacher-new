@@ -30,11 +30,11 @@ const Problems = () => {
   const deleteAction = (id: any) => {
     if (id) {
       mutate(
-        { method: "delete", url: `/problem/${id}`, data: null },
+        { method: "delete", url: `/problems/${id}`, data: null },
         {
           onSuccess: () => {
             queryClient.invalidateQueries({
-              queryKey: [`problem`],
+              queryKey: [`problems`],
             });
             notification["success"]({
               message: t("Успешно удален!"),
@@ -91,7 +91,7 @@ const Problems = () => {
                       <Button
                         icon={<CreateDoc />}
                         title={t("Qo'shish")}
-                        onClick={() => navigate("/problem/create")}
+                        onClick={() => navigate("/problems/create")}
                       />
                     </div>
                   </div>
@@ -130,7 +130,7 @@ const Problems = () => {
                           <DotBtn
                             row={row}
                             editFunction={() =>
-                              navigate(`/problem/update/${get(row, "_id")}`)
+                              navigate(`/problems/update/${get(row, "_id")}`)
                             }
                             deleteFunction={() => onDeleteHandler(row)}
                           />

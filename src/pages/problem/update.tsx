@@ -5,14 +5,14 @@ import { Field, FieldArray } from "formik";
 import { UploadOutlined } from "@ant-design/icons";
 import { useGet, useHooks } from "hooks";
 import Container from "modules/container";
-import { langlist } from "services/helpers";
+import { settingslist } from "services/helpers";
 import { utils } from "services";
 
 const Create = () => {
   const { get, t, navigate, location, params } = useHooks();
   const [selectedLang, setSelectedLang] = useState("O'z");
   const isUpdate =
-    utils.extractBaseUrl(location.pathname) === "/problem/update";
+    utils.extractBaseUrl(location.pathname) === "/problems/update";
   const problemId = params.id;
 
   const { data: problemData } = useGet({
@@ -177,69 +177,8 @@ const Create = () => {
                 </div>
               </div>
               <div className="content-panel">
-                <div className="flex">
-                  <Field
-                    required
-                    name="point"
-                    label={t("point")}
-                    component={Fields.Input}
-                    placeholder={t("point")}
-                    rootClassName="mb-[10px] mr-[10px] w-full"
-                  />
-                  <Field
-                    required
-                    name="timeLimit"
-                    label={t("timeLimit")}
-                    component={Fields.Input}
-                    placeholder={t("timeLimit")}
-                    rootClassName="mb-[10px] mr-[10px] w-full"
-                  />
-                  <Field
-                    required
-                    name="memoryLimit"
-                    label={t("memoryLimit")}
-                    component={Fields.Input}
-                    placeholder={t("memoryLimit")}
-                    rootClassName="mb-[10px] w-full mr-[10px]"
-                  />
-                  <Field
-                    required
-                    name="tutorials"
-                    label={t("tutorial link")}
-                    component={Fields.Input}
-                    placeholder={t("tutorial")}
-                    rootClassName="mb-[10px] w-full mr-[10px]"
-                  />
-                  <Field
-                    required
-                    name="difficulty"
-                    url="/difficulties"
-                    optionValue="_id"
-                    optionLabel="title"
-                    label={t("difficulty")}
-                    placeholder={t("difficulty")}
-                    component={Fields.AsyncSelect}
-                    onChange={(value: any) => {
-                      setFieldValue("difficulty", value);
-                    }}
-                    rootClassName="mb-[10px] w-full mr-[10px]"
-                  />
-                  <Field
-                    name="subject"
-                    url="/subjects/teacher/subject"
-                    optionValue="_id"
-                    optionLabel="title"
-                    label={t("subjects")}
-                    placeholder={t("subjects")}
-                    component={Fields.AsyncSelect}
-                    onChange={(value: any) => {
-                      setFieldValue("subject", value);
-                    }}
-                    rootClassName="mb-[10px] w-full mr-[10px]"
-                  />
-                </div>
                 <div className="lang-tabs">
-                  {langlist.map((item) => (
+                  {settingslist.map((item) => (
                     <div
                       className={
                         selectedLang === item.shortName
@@ -271,7 +210,7 @@ const Create = () => {
                         component={Fields.Ckeditor}
                         name="descriptionUz"
                         placeholder={t("uz haqida kiriting")}
-                        className="h-[46vh]"
+                        className="h-[40vh]"
                       />
                     </div>
                   )}
@@ -288,7 +227,7 @@ const Create = () => {
                         component={Fields.Ckeditor}
                         name="descriptionRu"
                         placeholder={t("ru haqida kiriting")}
-                        className="h-[46vh]"
+                        className="h-[40vh]"
                       />
                     </div>
                   )}
@@ -305,79 +244,150 @@ const Create = () => {
                         component={Fields.Ckeditor}
                         name="descriptionEn"
                         placeholder={t("en haqida kiriting")}
-                        className="h-[46vh]"
+                        className="h-[40vh]"
                       />
                     </div>
+                  )}
+                  {selectedLang === "St" && (
+                    <div className="flex">
+                      <div className="mr-[20px]">
+                        <Field
+                          required
+                          name="point"
+                          label={t("point")}
+                          component={Fields.Input}
+                          placeholder={t("point")}
+                          rootClassName="mb-[10px] mr-[10px] w-full"
+                        />
+                        <Field
+                          required
+                          name="timeLimit"
+                          label={t("timeLimit")}
+                          component={Fields.Input}
+                          placeholder={t("timeLimit")}
+                          rootClassName="mb-[10px] mr-[10px] w-full"
+                        />
+                        <Field
+                          required
+                          name="memoryLimit"
+                          label={t("memoryLimit")}
+                          component={Fields.Input}
+                          placeholder={t("memoryLimit")}
+                          rootClassName="mb-[10px] w-full mr-[10px]"
+                        />
+                      </div>
+                      <div>
+                        <Field
+                          required
+                          name="tutorials"
+                          label={t("tutorial link")}
+                          component={Fields.Input}
+                          placeholder={t("tutorial")}
+                          rootClassName="mb-[10px] w-full mr-[10px]"
+                        />
+                        <Field
+                          required
+                          name="difficulty"
+                          url="/difficulties"
+                          optionValue="_id"
+                          optionLabel="title"
+                          label={t("difficulty")}
+                          placeholder={t("difficulty")}
+                          component={Fields.AsyncSelect}
+                          onChange={(value: any) => {
+                            setFieldValue("difficulty", value);
+                          }}
+                          rootClassName="mb-[10px] w-full mr-[10px]"
+                        />
+                        <Field
+                          name="subject"
+                          url="/subjects/teacher/subject"
+                          optionValue="_id"
+                          optionLabel="title"
+                          label={t("subjects")}
+                          placeholder={t("subjects")}
+                          component={Fields.AsyncSelect}
+                          onChange={(value: any) => {
+                            setFieldValue("subject", value);
+                          }}
+                          rootClassName="mb-[10px] w-full mr-[10px]"
+                        />
+                      </div>
+                    </div>
+                  )}
+                  {selectedLang === "TC" && (
+                    <FieldArray name="testCases">
+                      {({ push, remove }) => (
+                        <div>
+                          <Button
+                            title={t("Add Test Case")}
+                            onClick={() =>
+                              push({ inputFileUrl: "", outputFileUrl: "" })
+                            }
+                            className="mb-[10px]"
+                          />
+                          {values.testCases.map(
+                            (testCase: any, index: number) => (
+                              <div key={index} className="flex mb-[10px]">
+                                <div className="mr-[10px]">
+                                  <p className="text-[#9EA3B5] px-[12px] py-[6px] bg-[#E6ECFE] dark:bg-[#454d70] rounded-[6px] inline-block mb-[12px] mr-[10px]">
+                                    {index + 1}
+                                  </p>
+                                  <Upload
+                                    beforeUpload={(file) => {
+                                      handleFileUpload(
+                                        file,
+                                        setFieldValue,
+                                        "testCases",
+                                        index,
+                                        "input"
+                                      );
+                                      return false;
+                                    }}
+                                    showUploadList={false}
+                                  >
+                                    <Button
+                                      icon={<UploadOutlined />}
+                                      title={t("Upload Input File")}
+                                    />
+                                  </Upload>
+                                </div>
+                                <div>
+                                  <p className="text-[#9EA3B5] px-[12px] py-[6px] bg-[#E6ECFE] dark:bg-[#454d70] rounded-[6px] inline-block mb-[12px] mr-[10px]">
+                                    {index + 1}
+                                  </p>
+                                  <Upload
+                                    beforeUpload={(file) => {
+                                      handleFileUpload(
+                                        file,
+                                        setFieldValue,
+                                        "testCases",
+                                        index,
+                                        "output"
+                                      );
+                                      return false;
+                                    }}
+                                    showUploadList={false}
+                                  >
+                                    <Button
+                                      icon={<UploadOutlined />}
+                                      title={t("Upload Output File")}
+                                    />
+                                  </Upload>
+                                </div>
+                                <Button
+                                  title={t("Remove")}
+                                  onClick={() => remove(index)}
+                                  className="ml-[10px]"
+                                />
+                              </div>
+                            )
+                          )}
+                        </div>
+                      )}
+                    </FieldArray>
                   )}
                 </div>
-                <FieldArray name="testCases">
-                  {({ push, remove }) => (
-                    <div>
-                      <Button
-                        title={t("Add Test Case")}
-                        onClick={() =>
-                          push({ inputFileUrl: "", outputFileUrl: "" })
-                        }
-                        className="mb-[10px]"
-                      />
-                      {values.testCases.map((testCase: any, index: number) => (
-                        <div key={index} className="flex mb-[10px]">
-                          <div className="mr-[10px]">
-                            <p className="text-[#9EA3B5] px-[12px] py-[6px] bg-[#E6ECFE] dark:bg-[#454d70] rounded-[6px] inline-block mb-[12px] mr-[10px]">
-                              {index + 1}
-                            </p>
-                            <Upload
-                              beforeUpload={(file) => {
-                                handleFileUpload(
-                                  file,
-                                  setFieldValue,
-                                  "testCases",
-                                  index,
-                                  "input"
-                                );
-                                return false;
-                              }}
-                              showUploadList={false}
-                            >
-                              <Button
-                                icon={<UploadOutlined />}
-                                title={t("Upload Input File")}
-                              />
-                            </Upload>
-                          </div>
-                          <div>
-                            <p className="text-[#9EA3B5] px-[12px] py-[6px] bg-[#E6ECFE] dark:bg-[#454d70] rounded-[6px] inline-block mb-[12px] mr-[10px]">
-                              {index + 1}
-                            </p>
-                            <Upload
-                              beforeUpload={(file) => {
-                                handleFileUpload(
-                                  file,
-                                  setFieldValue,
-                                  "testCases",
-                                  index,
-                                  "output"
-                                );
-                                return false;
-                              }}
-                              showUploadList={false}
-                            >
-                              <Button
-                                icon={<UploadOutlined />}
-                                title={t("Upload Output File")}
-                              />
-                            </Upload>
-                          </div>
-                          <Button
-                            title={t("Remove")}
-                            onClick={() => remove(index)}
-                            className="ml-[10px]"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </FieldArray>
               </div>
             </div>
           );

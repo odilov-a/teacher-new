@@ -50,13 +50,13 @@ const privateRoutes: IRoute[] = [
     element: <Problem />,
   },
   {
-    path: "/problem/create",
+    path: "/problems/create",
     key: "problem-create",
     title: "problem-create",
     element: <ProblemCreate />,
   },
   {
-    path: "/problem/update/:id",
+    path: "/problems/update/:id",
     key: "problem-update",
     title: "problem-update",
     element: <ProblemUpdate />,
