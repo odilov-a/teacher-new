@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import useStore from "store";
-import { helpers } from "services";
 import logo from "assets/images/logo.png";
 import { useHooks } from "hooks";
+import { menuItems } from "services/helpers";
+
 
 interface MenuItem {
   key: string;
@@ -47,7 +48,7 @@ const Navigation2: React.FC = () => {
         </Link>
       </div>
       <div className={"h-[80vh] overflow-y-scroll no-scrollbar"}>
-        {helpers.menuItems.map((menuItem, i) => (
+        {menuItems.map((menuItem, i) => (
           <React.Fragment key={menuItem.key + i}>
             {/* @ts-ignore */}
             <Link to={get(menuItem, "route")} className={pathname === menuItem.route ? "navbar-menuitem navbar-menuitem-actived" : "navbar-menuitem"}>

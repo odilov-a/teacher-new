@@ -176,3 +176,36 @@ ul {
     fill: #3367F6;
   }
 }
+
+.page-heading {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+
+  &__title {
+    color: #02080d;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 2;
+  }
+
+  &__subtitle {
+    color: var(--Greys-Grey-1, #77828a);
+    font-family: Inter;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+
+    button {
+      font-size: 14px;
+      width: 250px;
+    }
+  }
+}

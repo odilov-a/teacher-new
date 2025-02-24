@@ -1,14 +1,28 @@
-import { Spin, notification, Upload } from "antd";
+import { useState } from "react";
+import { notification, Upload } from "antd";
+import { Button, Fields } from "components";
 import { Field, FieldArray } from "formik";
-import { useHooks } from "hooks";
-import { Container } from "modules";
-import { Fields, Button } from "components";
 import { UploadOutlined } from "@ant-design/icons";
+import { useGet, useHooks } from "hooks";
+import Container from "modules/container";
+import { langlist } from "services/helpers";
+import { utils } from "services";
 
-const Problem = ({ showCreateModal, createModal }: any): JSX.Element => {
-  const { t, get } = useHooks();
-  let data = createModal.data && createModal?.data;
+const Create = () => {
+  const { get, t, navigate, location, params } = useHooks();
+  const [selectedLang, setSelectedLang] = useState("O'z");
+  const isUpdate =
+    utils.extractBaseUrl(location.pathname) === "/problem/update";
+  const problemId = params.id;
 
+  const { data: problemData } = useGet({
+    name: `problems`,
+    url: `/problems/${problemId}`,
+    onSuccess: () => {},
+    onError: () => {},
+  });
+
+  const data = get(problemData, "data");
   const handleFileUpload = async (
     file: any,
     setFieldValue: any,
@@ -50,9 +64,9 @@ const Problem = ({ showCreateModal, createModal }: any): JSX.Element => {
   return (
     <div>
       <Container.Form
-        url={data._id ? `/problems/${get(data, "_id")}` : "/problems"}
-        method={data._id ? "put" : "post"}
+        url={isUpdate ? `/problems/${get(data, "_id")}` : "/problems"}
         name="problems"
+        method={isUpdate ? "put" : "post"}
         fields={[
           {
             type: "string",
@@ -133,98 +147,36 @@ const Problem = ({ showCreateModal, createModal }: any): JSX.Element => {
             value: get(data, "testCases", []),
           },
         ]}
-        onSuccess={(data, resetForm, query) => {
-          query.invalidateQueries({ queryKey: ["problems"] });
-          resetForm();
-          showCreateModal(false);
+        onSuccess={() => {
+          navigate("/problems");
         }}
         onError={(error) => {
           notification.error({
-            message: get(error, "errorMessage", t("All fields must be filled")),
+            message: get(error, "errorMessage", t("Something went wrong!")),
             duration: 2,
           });
         }}
       >
-        {({ isLoading, setFieldValue, values }) => {
+        {({ submitForm, values, setFieldValue }) => {
           return (
-            <Spin spinning={isLoading} tip={t("Verifying")}>
-              <div className="mt-5">
-                <div className="flex">
-                  <div className="mr-[15px] w-[50%]">
-                    <Field
-                      required
-                      name="titleUz"
-                      label={t("titleUz")}
-                      component={Fields.Input}
-                      placeholder={t("titleUz")}
-                    />
-                    <Field
-                      required
-                      name="titleRu"
-                      label={t("titleRu")}
-                      component={Fields.Input}
-                      placeholder={t("titleRu")}
-                    />
-                    <Field
-                      required
-                      name="titleEn"
-                      label={t("titleEn")}
-                      component={Fields.Input}
-                      placeholder={t("titleEn")}
-                    />
-                    <Field
-                      required
-                      name="difficulty"
-                      url="/difficulties"
-                      optionValue="_id"
-                      optionLabel="title"
-                      label={t("difficulty")}
-                      placeholder={t("difficulty")}
-                      component={Fields.AsyncSelect}
-                      onChange={(value: any) => {
-                        setFieldValue("difficulty", value);
-                      }}
-                    />
-                    <Field
-                      name="subject"
-                      url="/subjects"
-                      optionValue="_id"
-                      optionLabel="title"
-                      label={t("subjects")}
-                      placeholder={t("subjects")}
-                      component={Fields.AsyncSelect}
-                      onChange={(value: any) => {
-                        setFieldValue("subject", value);
-                      }}
-                    />
-                  </div>
-                  <div className="w-[50%]">
-                    <Field
-                      required
-                      rows={4}
-                      name="descriptionUz"
-                      label={t("descriptionUz")}
-                      component={Fields.Textarea}
-                      placeholder={t("descriptionUz")}
-                    />
-                    <Field
-                      required
-                      rows={4}
-                      name="descriptionRu"
-                      label={t("descriptionRu")}
-                      component={Fields.Textarea}
-                      placeholder={t("descriptionRu")}
-                    />
-                    <Field
-                      required
-                      rows={4}
-                      name="descriptionEn"
-                      label={t("descriptionEn")}
-                      component={Fields.Textarea}
-                      placeholder={t("descriptionEn")}
-                    />
-                  </div>
+            <div>
+              <div className="content-panel page-heading">
+                <p className="page-heading__title">
+                  {isUpdate ? t("O‘zgartirish") : t("Qo‘shish")}
+                </p>
+                <div className="page-heading__right">
+                  <Button
+                    title="Bekor qilish"
+                    className="mr-[20px]"
+                    onClick={() => navigate("/problems")}
+                  />
+                  <Button
+                    title={isUpdate ? t("Saqlash") : t("Tasdiqlash")}
+                    onClick={submitForm}
+                  />
                 </div>
+              </div>
+              <div className="content-panel">
                 <div className="flex">
                   <Field
                     required
@@ -256,8 +208,107 @@ const Problem = ({ showCreateModal, createModal }: any): JSX.Element => {
                     label={t("tutorial link")}
                     component={Fields.Input}
                     placeholder={t("tutorial")}
-                    rootClassName="mb-[10px] w-full"
+                    rootClassName="mb-[10px] w-full mr-[10px]"
                   />
+                  <Field
+                    required
+                    name="difficulty"
+                    url="/difficulties"
+                    optionValue="_id"
+                    optionLabel="title"
+                    label={t("difficulty")}
+                    placeholder={t("difficulty")}
+                    component={Fields.AsyncSelect}
+                    onChange={(value: any) => {
+                      setFieldValue("difficulty", value);
+                    }}
+                    rootClassName="mb-[10px] w-full mr-[10px]"
+                  />
+                  <Field
+                    name="subject"
+                    url="/subjects/teacher/subject"
+                    optionValue="_id"
+                    optionLabel="title"
+                    label={t("subjects")}
+                    placeholder={t("subjects")}
+                    component={Fields.AsyncSelect}
+                    onChange={(value: any) => {
+                      setFieldValue("subject", value);
+                    }}
+                    rootClassName="mb-[10px] w-full mr-[10px]"
+                  />
+                </div>
+                <div className="lang-tabs">
+                  {langlist.map((item) => (
+                    <div
+                      className={
+                        selectedLang === item.shortName
+                          ? "lang-tabs__tab--selected"
+                          : "lang-tabs__tab"
+                      }
+                      key={get(item, "id")}
+                      onClick={() => setSelectedLang(item.shortName)}
+                    >
+                      {get(item, "flag")}{" "}
+                      <p className="lang-tabs__tab__title">
+                        {get(item, "title")}
+                      </p>
+                    </div>
+                  ))}
+                  <div className="lang-tabs__last"></div>
+                </div>
+                <div className="mb-[60px]">
+                  {selectedLang === "O'z" && (
+                    <div>
+                      <Field
+                        type="text"
+                        name="titleUz"
+                        label={t("Title (uz)")}
+                        component={Fields.Input}
+                        placeholder={t("uz sarlavhani kiriting")}
+                      />
+                      <Field
+                        component={Fields.Ckeditor}
+                        name="descriptionUz"
+                        placeholder={t("uz haqida kiriting")}
+                        className="h-[46vh]"
+                      />
+                    </div>
+                  )}
+                  {selectedLang === "Ру" && (
+                    <div>
+                      <Field
+                        type="text"
+                        name="titleRu"
+                        label={t("Title (ru)")}
+                        component={Fields.Input}
+                        placeholder={t("ru sarlavhani kiriting")}
+                      />
+                      <Field
+                        component={Fields.Ckeditor}
+                        name="descriptionRu"
+                        placeholder={t("ru haqida kiriting")}
+                        className="h-[46vh]"
+                      />
+                    </div>
+                  )}
+                  {selectedLang === "En" && (
+                    <div>
+                      <Field
+                        type="text"
+                        name="titleEn"
+                        label={t("Title (en)")}
+                        component={Fields.Input}
+                        placeholder={t("en sarlavhani kiriting")}
+                      />
+                      <Field
+                        component={Fields.Ckeditor}
+                        name="descriptionEn"
+                        placeholder={t("en haqida kiriting")}
+                        className="h-[46vh]"
+                      />
+                    </div>
+                  )}
                 </div>
                 <FieldArray name="testCases">
                   {({ push, remove }) => (
@@ -327,14 +378,8 @@ const Problem = ({ showCreateModal, createModal }: any): JSX.Element => {
                     </div>
                   )}
                 </FieldArray>
-                <Button
-                  size="large"
-                  title={t("Save")}
-                  htmlType="submit"
-                  className="w-full mt-[10px]"
-                />
               </div>
-            </Spin>
+            </div>
           );
         }}
       </Container.Form>
@@ -342,4 +387,4 @@ const Problem = ({ showCreateModal, createModal }: any): JSX.Element => {
   );
 };
 
-export default Problem;
+export default Create;

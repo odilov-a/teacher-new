@@ -79,6 +79,12 @@ const getValue = (value: any) => {
   }
 }
 
+function extractBaseUrl(url: string) {
+  const pattern = /^(\/[a-zA-Z0-9-_]+(?:\/[a-zA-Z0-9-_]+){0,2})\/[a-zA-Z0-9]+$/;
+  const match = url.match(pattern);
+  return match ? match[1] : url;
+}
+
 export default {
   formatNumber,
   formatPhone,
@@ -90,5 +96,6 @@ export default {
   formatTimestamp,
   getNow,
   getValue,
-  formatFetchedDateMonth
+  formatFetchedDateMonth,
+  extractBaseUrl
 };

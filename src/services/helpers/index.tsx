@@ -1,3 +1,4 @@
+import { FlagUz, FlagRu, FlagEn } from "assets/images/icons";
 import {
   AppstoreOutlined,
   UserAddOutlined,
@@ -11,6 +12,12 @@ interface MenuItem {
   children?: MenuItem[];
   route?: string;
 }
+
+const langlist = [
+  { id: 1, flag: <FlagUz />, title: "O'zbekcha", shortName: "O'z" },
+  { id: 2, flag: <FlagRu />, title: "Русский", shortName: "Ру" },
+  { id: 3, flag: <FlagEn />, title: "English", shortName: "En" },
+];
 
 const menuItems: MenuItem[] = [
   {
@@ -39,8 +46,4 @@ function gen4() {
     .slice(-4);
 }
 
-export default {
-  menuItems,
-};
-
-export { gen4 };
+export { menuItems, langlist, gen4 };

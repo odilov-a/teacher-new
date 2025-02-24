@@ -8,6 +8,8 @@ import AsyncSelect from "./ant-async-select";
 import Textarea from "./textarea";
 import Switch from "./switch";
 import FileUpload3 from "./fileUpload3";
+import Ckeditor from "./Ckeditor";
+import Search from "./Search";
 
 export default {
   Input,
@@ -20,4 +22,6 @@ export default {
   Textarea,
   Switch,
   FileUpload3,
+  Ckeditor,
+  Search,
 };

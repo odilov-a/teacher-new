@@ -1,160 +1,161 @@
+import { Modal, notification, Pagination, Table } from "antd";
 import { useState } from "react";
-import { Modal, notification, Pagination, Card, Row, Col } from "antd";
-import { Delete, Edit, CreateDoc } from "assets/images/icons";
-import { useHooks, usePost } from "hooks";
-import { Button } from "components";
-import { Container } from "modules";
-import Create from "./create";
-import More from "./more";
 
-const Problem = () => {
-  const { Meta } = Card;
-  const { get, queryClient, t } = useHooks();
-  const [createModal, showCreateModal] = useState({ open: false, data: {} });
-  const [moreModal, showMoreModal] = useState({ open: false, data: {} });
-  const [page, setPage] = useState(1);
+import { Button, DotBtn } from "components";
+import { useHooks, useDebounce, usePost } from "hooks";
+import Container from "modules/container";
+import { CreateDoc } from "assets/images/icons";
+import Fields from "components/fields";
+
+const Problems = () => {
+  const { t, qs, get, location, queryClient, navigate } = useHooks();
   const { mutate } = usePost();
-  const onDeleteHandler = (id: string) => {
+  const [page, setPage] = useState<number>(1);
+  const [query, setQuery] = useState("");
+  const searchQuery = useDebounce(query, 600);
+
+  const params = qs.parse(location.search, { ignoreQueryPrefix: true });
+
+  const onDeleteHandler = (row: any) => {
+    const id = get(row, "_id");
     Modal.confirm({
-      title: t("Вы уверены что хотите удалить?"),
-      okText: t("да"),
+      title: t("O'chirishni tasdiqlaysizmi") + "?",
+      cancelText: t("yo'q"),
       okType: "danger",
-      cancelText: t("нет"),
+      okText: t("ha"),
       onOk: () => deleteAction(id),
     });
   };
-  const deleteAction = (id: string) => {
+
+  const deleteAction = (id: any) => {
     if (id) {
       mutate(
-        { method: "delete", url: `/problems/${id}`, data: null },
+        { method: "delete", url: `/problem/${id}`, data: null },
         {
           onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["problems"] });
-            notification.success({
-              message: t("Успешно удалена"),
+            queryClient.invalidateQueries({
+              queryKey: [`problem`],
+            });
+            notification["success"]({
+              message: t("Успешно удален!"),
               duration: 2,
             });
           },
-          onError: (error) => {
-            notification.error({
-              message: get(error, "errorMessage", t("Произошло ошибка!")),
-              duration: 2,
+          onError: (error: any) => {
+            notification["error"]({
+              message: t(
+                get(error, "response.data.error", "Произошло ошибка!")
+              ),
+              duration: get(error, "response.data.message") ? 4 : 2,
             });
           },
         }
       );
     }
   };
+
   return (
-    <div className="flex">
-      <Modal
-        open={createModal.open}
-        onCancel={() => showCreateModal({ open: false, data: {} })}
-        footer={null}
-        centered
-        title={
-          get(createModal, "data._id")
-            ? t("Update problem")
-            : t("Create problem")
-        }
-        width={900}
-        destroyOnClose
-      >
-        <Create {...{ showCreateModal, createModal }} />
-      </Modal>
-      <Modal
-        open={moreModal.open}
-        onCancel={() => showMoreModal({ open: false, data: {} })}
-        footer={null}
-        centered
-        title={t("More information")}
-        width={900}
-        destroyOnClose
-      >
-        <More {...{ showMoreModal, moreModal }} />
-      </Modal>
-      <div>
-        <Container.All name="problems" url="/problems/teacher/problems">
-          {({ items, meta }) => (
-            <div>
-              <div className="flex justify-between">
-                <Button
-                  title={t("Create problem")}
-                  icon={<CreateDoc />}
-                  size="large"
-                  className="bg-[#002855]"
-                  onClick={() => showCreateModal({ open: true, data: {} })}
-                />
-                {/* {meta && meta.perPage && (
-                  <div className="mt-[20px] flex justify-center">
-                    <Pagination
-                      current={meta.currentPage}
-                      pageSize={meta.perPage}
-                      total={meta.totalCount}
-                      onChange={(page) => {
-                        setPage(page);
-                        window.scrollTo({
-                          behavior: "smooth",
-                          top: 0,
-                          left: 0,
-                        });
-                      }}
-                    />
-                  </div>
-                )} */}
-              </div>
-              <Row className="h-[120px] mt-[15px]">
-                {items.map((card) => (
-                  <Col
-                    className="cursor-pointer"
-                    onClick={() => showMoreModal({ open: true, data: card })}
-                  >
-                    <div className="mr-8 mb-4 w-[250px] h-[150px]">
-                      <Meta
-                        className="pb-[40px] p-0"
-                        title={
-                          <div className="mb-1">
-                            <p className="dark:text-[#e5e7eb] block truncate">
-                              <strong>{get(card, "title", "")}</strong>
-                            </p>
-                          </div>
-                        }
-                        description={
-                          <div className="dark:text-[#e5e7eb] block truncate">
-                            <p>{get(card, "description", "")}</p>
-                          </div>
-                        }
+    <>
+      <div className="content-panel">
+        <div>
+          <Container.All
+            url="/problems/teacher/problems"
+            name="problems"
+            // params={{
+            //   limit: 5,
+            //   page,
+            //   extra: {
+            //     search: searchQuery,
+            //     start: params.start && params.start,
+            //     end: params.end && params.end
+            //   }
+            // }}
+          >
+            {({ meta, items }) => {
+              return (
+                <div>
+                  <div className="page-heading">
+                    {/* <p className="page-heading__title">
+                      {t("FAQ")}
+                      <p className="page-heading__subtitle">{items.length} {t("FAQ")}</p>
+                    </p> */}
+                    <div className="page-heading__right">
+                      {/* <Fields.Search
+                        type="text"
+                        text={t("Qidiruv")}
+                        onSearch={setQuery}
+                        className="mr-[20px] w-[50%!important]"
+                        value={query}
+                        {...{ setPage }}
+                      /> */}
+                      <Button
+                        icon={<CreateDoc />}
+                        title={t("Qo'shish")}
+                        onClick={() => navigate("/problem/create")}
                       />
-                      <div className="btnPanel2">
-                        <div
-                          className="editBtn"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            showCreateModal({ open: true, data: card });
-                          }}
-                        >
-                          <Edit />
-                        </div>
-                        <div
-                          className="deleteBtn"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onDeleteHandler(get(card, "_id", ""));
-                          }}
-                        >
-                          <Delete />
-                        </div>
-                      </div>
                     </div>
-                  </Col>
-                ))}
-              </Row>
-            </div>
-          )}
-        </Container.All>
+                  </div>
+                  <Table
+                    dataSource={items}
+                    pagination={{ pageSize: 12 }}
+                    columns={[
+                      {
+                        key: "title",
+                        align: "left",
+                        title: t("title"),
+                        dataIndex: "title",
+                        className: "w-[80px]",
+                        render: (value) => (
+                          <div className="flex items-center">{value}</div>
+                        ),
+                      },
+                      {
+                        key: "description",
+                        align: "left",
+                        title: t("description"),
+                        dataIndex: "description",
+                        className: "w-[180px]",
+                        render: (value) => (
+                          <span
+                            className="dark:text-[#e5e7eb] line-clamp-2"
+                            dangerouslySetInnerHTML={{ __html: value }}
+                          />
+                        ),
+                      },
+                      {
+                        title: t("Amallar"),
+                        align: "center",
+                        className: "w-[1px]",
+                        render: (value, row) => (
+                          <DotBtn
+                            row={row}
+                            editFunction={() =>
+                              navigate(`/problem/update/${get(row, "_id")}`)
+                            }
+                            deleteFunction={() => onDeleteHandler(row)}
+                          />
+                        ),
+                      },
+                    ]}
+                  />
+                  {/* {meta && meta.perPage && (
+                    <div className="pt-[20px] flex justify-end">
+                      <Pagination
+                        current={meta.currentPage}
+                        pageSize={meta.perPage}
+                        total={meta.totalCount}
+                        onChange={setPage}
+                      />
+                    </div>
+                  )} */}
+                </div>
+              );
+            }}
+          </Container.All>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
-export default Problem;
+export default Problems;
