@@ -33,7 +33,7 @@ const Create = () => {
     const formData = new FormData();
     formData.append("file", file);
     try {
-      const response = await fetch("http://localhost:5001/api/tests/upload", {
+      const response = await fetch(`${process.env.REACT_APP_ROOT_FILE_UPLOAD}/tests/upload`, {
         method: "POST",
         body: formData,
         headers: {
