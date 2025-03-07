@@ -26,12 +26,6 @@ const User = ({ showEditModal, selectedCard }: any): JSX.Element => {
             value: get(selectedCard, "lastName"),
           },
           {
-            type: "any",
-            required: true,
-            name: "subject",
-            value: get(selectedCard, "subject"),
-          },
-          {
             type: "string",
             name: "password",
           },
@@ -102,40 +96,25 @@ const User = ({ showEditModal, selectedCard }: any): JSX.Element => {
                   />
                 </div>
                 <div className="flex">
+                  <div>
+                    <p className="text-[#9EA3B5] px-[12px] py-[6px] bg-[#E6ECFE] dark:bg-[#454d70] rounded-[6px] inline-block mb-[12px] mr-[10px]">
+                      {t("photo")}
+                    </p>
+                    <Field
+                      name="photoUrl"
+                      label={t("Photo")}
+                      placeholder={t("Photo")}
+                      rootClassName="mb-[10px] mr-[10%]"
+                      component={Fields.FileUpload3}
+                      accept="image/png, image/jpeg, image/jpg"
+                    />
+                  </div>
                   <Field
                     type="text"
                     name="phoneNumber"
                     label={t("Phone Number")}
                     component={Fields.Input}
                     placeholder={t("Phone Number")}
-                    rootClassName="mr-[10px]"
-                  />
-                  <Field
-                    name="subject"
-                    isMulti={true}
-                    url="/subjects"
-                    optionValue="_id"
-                    optionLabel="title"
-                    label={t("subjects")}
-                    placeholder={t("subjects")}
-                    component={Fields.AsyncSelect}
-                    rootClassName="mb-[10px] w-full"
-                    onChange={(value: any) => {
-                      setFieldValue("subject", value);
-                    }}
-                  />
-                </div>
-                <div>
-                  <p className="text-[#9EA3B5] px-[12px] py-[6px] bg-[#E6ECFE] dark:bg-[#454d70] rounded-[6px] inline-block mb-[12px] mr-[10px]">
-                    {t("photo")}
-                  </p>
-                  <Field
-                    name="photoUrl"
-                    label={t("Photo")}
-                    placeholder={t("Photo")}
-                    rootClassName="mb-[10px]"
-                    component={Fields.FileUpload3}
-                    accept="image/png, image/jpeg, image/jpg"
                   />
                 </div>
                 <Button

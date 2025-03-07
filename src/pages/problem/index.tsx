@@ -59,7 +59,7 @@ const Problems = () => {
       <div className="content-panel">
         <div>
           <Container.All
-            url="/problems/teacher/problems"
+            url="/problems"
             name="problems"
             // params={{
             //   limit: 5,

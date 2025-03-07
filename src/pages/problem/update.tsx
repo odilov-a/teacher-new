@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { notification, Upload } from "antd";
+import { notification, Upload, Tabs } from "antd";
 import { Button, Fields } from "components";
 import { Field, FieldArray } from "formik";
 import { UploadOutlined } from "@ant-design/icons";
 import { useGet, useHooks } from "hooks";
 import Container from "modules/container";
-import { settingslist } from "services/helpers";
 import { utils } from "services";
+
+const { TabPane } = Tabs;
 
 const Create = () => {
   const { get, t, navigate, location, params } = useHooks();
@@ -23,6 +24,7 @@ const Create = () => {
   });
 
   const data = get(problemData, "data");
+
   const handleFileUpload = async (
     file: any,
     setFieldValue: any,
@@ -33,13 +35,16 @@ const Create = () => {
     const formData = new FormData();
     formData.append("file", file);
     try {
-      const response = await fetch(`${process.env.REACT_APP_ROOT_FILE_UPLOAD}/tests/upload`, {
-        method: "POST",
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_ROOT_FILE_UPLOAD}/tests/upload`,
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       const result = await response.json();
       if (response.ok && result.data) {
         setFieldValue(`testCases.${index}.${type}FileUrl`, result.data.fileUrl);
@@ -177,27 +182,12 @@ const Create = () => {
                 </div>
               </div>
               <div className="content-panel">
-                <div className="lang-tabs">
-                  {settingslist.map((item) => (
-                    <div
-                      className={
-                        selectedLang === item.shortName
-                          ? "lang-tabs__tab--selected"
-                          : "lang-tabs__tab"
-                      }
-                      key={get(item, "id")}
-                      onClick={() => setSelectedLang(item.shortName)}
-                    >
-                      {get(item, "flag")}{" "}
-                      <p className="lang-tabs__tab__title">
-                        {get(item, "title")}
-                      </p>
-                    </div>
-                  ))}
-                  <div className="lang-tabs__last"></div>
-                </div>
-                <div className="mb-[60px]">
-                  {selectedLang === "O'z" && (
+                <Tabs
+                  activeKey={selectedLang}
+                  onChange={(key) => setSelectedLang(key)}
+                  type="card"
+                >
+                  <TabPane tab="O'zbek" key="O'z">
                     <div>
                       <Field
                         type="text"
@@ -213,8 +203,8 @@ const Create = () => {
                         className="h-[40vh]"
                       />
                     </div>
-                  )}
-                  {selectedLang === "Ру" && (
+                  </TabPane>
+                  <TabPane tab="Русский" key="Ру">
                     <div>
                       <Field
                         type="text"
@@ -230,8 +220,8 @@ const Create = () => {
                         className="h-[40vh]"
                       />
                     </div>
-                  )}
-                  {selectedLang === "En" && (
+                  </TabPane>
+                  <TabPane tab="English" key="En">
                     <div>
                       <Field
                         type="text"
@@ -247,8 +237,8 @@ const Create = () => {
                         className="h-[40vh]"
                       />
                     </div>
-                  )}
-                  {selectedLang === "St" && (
+                  </TabPane>
+                  <TabPane tab="Settings" key="St">
                     <div className="flex">
                       <div className="mr-[20px]">
                         <Field
@@ -314,8 +304,8 @@ const Create = () => {
                         />
                       </div>
                     </div>
-                  )}
-                  {selectedLang === "TC" && (
+                  </TabPane>
+                  <TabPane tab="Test Cases" key="TC">
                     <FieldArray name="testCases">
                       {({ push, remove }) => (
                         <div>
@@ -386,8 +376,8 @@ const Create = () => {
                         </div>
                       )}
                     </FieldArray>
-                  )}
-                </div>
+                  </TabPane>
+                </Tabs>
               </div>
             </div>
           );

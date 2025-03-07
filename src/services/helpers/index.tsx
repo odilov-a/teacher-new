@@ -13,21 +13,6 @@ interface MenuItem {
   route?: string;
 }
 
-const langlist = [
-  { id: 1, title: "O'zbekcha", shortName: "O'z" },
-  { id: 2, title: "Русский", shortName: "Ру" },
-  { id: 3, title: "English", shortName: "En" },
-];
-
-const settingslist = [
-  { id: 1, title: "O'zbekcha", shortName: "O'z" },
-  { id: 2, title: "Русский", shortName: "Ру" },
-  { id: 3, title: "English", shortName: "En" },
-  { id: 4, title: "Settings", shortName: "St" },
-  { id: 5, title: "Tests", shortName: "TC" },
-];
-
-
 const menuItems: MenuItem[] = [
   {
     key: "problems",
@@ -40,6 +25,12 @@ const menuItems: MenuItem[] = [
     label: "Talabalar",
     icon: <UserAddOutlined />,
     route: "/students",
+  },
+  {
+    key: "resources",
+    label: "Resurslar",
+    icon: <AppstoreOutlined />,
+    route: "/resources",
   },
   {
     key: "feedbacks",
@@ -55,4 +46,4 @@ function gen4() {
     .slice(-4);
 }
 
-export { menuItems, langlist, gen4, settingslist };
+export { menuItems, gen4 };
