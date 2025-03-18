@@ -31,10 +31,12 @@ const MyButton = (props: IProps) => {
         size={size}
         htmlType={htmlType}
         loading={isLoading}
-        className={
-          className +
-          " bg-[#002855] text-[17px] text-white hover:!text-black flex items-center justify-center border-none"
-        }
+        className="w-full bg-[#002855] border-[#002855] hover:bg-[#fff] hover:border-[#fff]"
+        style={{
+          backgroundColor: disabled ? "#002855" : "#002855",
+          borderColor: disabled ? "#002855" : "#002855",
+          color: "#fff",
+        }}
       >
         {title}
       </Button>

@@ -1,9 +1,4 @@
-import { FlagUz, FlagRu, FlagEn } from "assets/images/icons";
-import {
-  AppstoreOutlined,
-  UserAddOutlined,
-  BellOutlined,
-} from "@ant-design/icons";
+import { AppstoreOutlined } from "@ant-design/icons";
 
 interface MenuItem {
   key: string;
@@ -21,9 +16,15 @@ const menuItems: MenuItem[] = [
     route: "/problems",
   },
   {
+    key: "test",
+    label: "Testlar",
+    icon: <AppstoreOutlined />,
+    route: "/test",
+  },
+  {
     key: "students",
     label: "Talabalar",
-    icon: <UserAddOutlined />,
+    icon: <AppstoreOutlined />,
     route: "/students",
   },
   {
@@ -35,7 +36,7 @@ const menuItems: MenuItem[] = [
   {
     key: "feedbacks",
     label: "Fikrlar",
-    icon: <BellOutlined />,
+    icon: <AppstoreOutlined />,
     route: "/feedbacks",
   },
 ];

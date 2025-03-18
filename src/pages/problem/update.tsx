@@ -167,11 +167,11 @@ const Create = () => {
             <div>
               <div className="content-panel page-heading">
                 <p className="page-heading__title">
-                  {isUpdate ? t("O‘zgartirish") : t("Qo‘shish")}
+                  {isUpdate ? t("O'zgartirish") : t("Qo'shish")}
                 </p>
-                <div className="page-heading__right">
+                <div className="page-heading__right gap-2">
                   <Button
-                    title="Bekor qilish"
+                    title={t("Bekor qilish")}
                     className="mr-[20px]"
                     onClick={() => navigate("/problems")}
                   />
@@ -196,11 +196,14 @@ const Create = () => {
                         component={Fields.Input}
                         placeholder={t("uz sarlavhani kiriting")}
                       />
+                      <p className="text-[#9EA3B5] px-[12px] py-[6px] bg-[#E6ECFE] dark:bg-[#454d70] rounded-[6px] inline-block mb-[12px] mr-[10px]">
+                        {t("descriptionUz")}
+                      </p>
                       <Field
-                        component={Fields.Ckeditor}
                         name="descriptionUz"
-                        placeholder={t("uz haqida kiriting")}
                         className="h-[40vh]"
+                        component={Fields.Ckeditor}
+                        placeholder={t("uz haqida kiriting")}
                       />
                     </div>
                   </TabPane>
@@ -213,11 +216,14 @@ const Create = () => {
                         component={Fields.Input}
                         placeholder={t("ru sarlavhani kiriting")}
                       />
+                      <p className="text-[#9EA3B5] px-[12px] py-[6px] bg-[#E6ECFE] dark:bg-[#454d70] rounded-[6px] inline-block mb-[12px] mr-[10px]">
+                        {t("descriptionRu")}
+                      </p>
                       <Field
-                        component={Fields.Ckeditor}
                         name="descriptionRu"
-                        placeholder={t("ru haqida kiriting")}
                         className="h-[40vh]"
+                        component={Fields.Ckeditor}
+                        placeholder={t("ru haqida kiriting")}
                       />
                     </div>
                   </TabPane>
@@ -230,11 +236,14 @@ const Create = () => {
                         component={Fields.Input}
                         placeholder={t("en sarlavhani kiriting")}
                       />
+                      <p className="text-[#9EA3B5] px-[12px] py-[6px] bg-[#E6ECFE] dark:bg-[#454d70] rounded-[6px] inline-block mb-[12px] mr-[10px]">
+                        {t("descriptionEn")}
+                      </p>
                       <Field
-                        component={Fields.Ckeditor}
                         name="descriptionEn"
-                        placeholder={t("en haqida kiriting")}
                         className="h-[40vh]"
+                        component={Fields.Ckeditor}
+                        placeholder={t("en haqida kiriting")}
                       />
                     </div>
                   </TabPane>
@@ -309,13 +318,14 @@ const Create = () => {
                     <FieldArray name="testCases">
                       {({ push, remove }) => (
                         <div>
-                          <Button
-                            title={t("Add Test Case")}
-                            onClick={() =>
-                              push({ inputFileUrl: "", outputFileUrl: "" })
-                            }
-                            className="mb-[10px]"
-                          />
+                          <div className="mb-[10px] w-[30%]">
+                            <Button
+                              title={t("Add Test Case")}
+                              onClick={() =>
+                                push({ inputFileUrl: "", outputFileUrl: "" })
+                              }
+                            />
+                          </div>
                           {values.testCases.map(
                             (testCase: any, index: number) => (
                               <div key={index} className="flex mb-[10px]">
@@ -365,11 +375,12 @@ const Create = () => {
                                     />
                                   </Upload>
                                 </div>
-                                <Button
-                                  title={t("Remove")}
-                                  onClick={() => remove(index)}
-                                  className="ml-[10px]"
-                                />
+                                <div className="ml-[10px]">
+                                  <Button
+                                    title={t("Remove")}
+                                    onClick={() => remove(index)}
+                                  />
+                                </div>
                               </div>
                             )
                           )}

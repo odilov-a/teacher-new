@@ -9,6 +9,8 @@ const Problem = lazy(() => import("pages/problem"));
 const Resource = lazy(() => import("pages/resource"));
 const ProblemCreate = lazy(() => import("pages/problem/update"));
 const ProblemUpdate = lazy(() => import("pages/problem/update"));
+const Test = lazy(() => import("pages/test"));
+const TestUpdate = lazy(() => import("pages/test/update"));
 
 export interface IRoute {
   path: string;
@@ -23,7 +25,7 @@ const privateRoutes: IRoute[] = [
   {
     path: "/",
     key: "welcome",
-    title: "Welcome",
+    title: "",
     element: <Default />,
   },
   {
@@ -67,6 +69,24 @@ const privateRoutes: IRoute[] = [
     key: "problem-update",
     title: "problem-update",
     element: <ProblemUpdate />,
+  },
+  {
+    path: "/test",
+    key: "test",
+    title: "Testlar",
+    element: <Test />,
+  },
+  {
+    path: "/test/create",
+    key: "test-create",
+    title: "Test qo'shish",
+    element: <TestUpdate />,
+  },
+  {
+    path: "/test/update/:id",
+    key: "test-update",
+    title: "Testni O'zgartirish",
+    element: <TestUpdate />,
   },
   {
     path: "*",
