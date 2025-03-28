@@ -70,7 +70,7 @@ const Problems = () => {
                     columns={[
                       {
                         key: "title",
-                        align: "left",
+                        align: "center",
                         title: t("title"),
                         dataIndex: "title",
                         className: "w-[80px]",
@@ -79,8 +79,20 @@ const Problems = () => {
                         ),
                       },
                       {
+                        key: "forArena",
+                        align: "center",
+                        title: t("forArena"),
+                        dataIndex: "forArena",
+                        className: "w-[80px]",
+                        render: (value) => (
+                          <div className={value ? "text-green-500" : "text-red-500"}>
+                            {value ? t("ha") : t("yo'q")}
+                          </div>
+                        ),
+                      },
+                      {
                         key: "description",
-                        align: "left",
+                        align: "center",
                         title: t("description"),
                         dataIndex: "description",
                         className: "w-[180px]",

@@ -151,6 +151,11 @@ const Create = () => {
             name: "testCases",
             value: get(data, "testCases", []),
           },
+          {
+            type: "boolean",
+            name: "forArena",
+            value: get(data, "forArena"),
+          },
         ]}
         onSuccess={() => {
           navigate("/problems");
@@ -250,9 +255,19 @@ const Create = () => {
                   <TabPane tab="Settings" key="St">
                     <div className="flex">
                       <div className="mr-[20px]">
+                        <p className="text-[#9EA3B5] px-[12px] py-[6px] bg-[#E6ECFE] dark:bg-[#454d70] rounded-[6px] inline-block mb-[12px] mr-[10px]">
+                          {t("forArena")}
+                        </p>
+                        <Field
+                          name="forArena"
+                          label={t("forArena")}
+                          component={Fields.Switch}
+                          rootClassName="mb-[10px] bg-[#000]"
+                        />
                         <Field
                           required
                           name="point"
+                          type="number"
                           label={t("point")}
                           component={Fields.Input}
                           placeholder={t("point")}
@@ -260,6 +275,7 @@ const Create = () => {
                         />
                         <Field
                           required
+                          type="number"
                           name="timeLimit"
                           label={t("timeLimit")}
                           component={Fields.Input}
@@ -268,14 +284,13 @@ const Create = () => {
                         />
                         <Field
                           required
+                          type="number"
                           name="memoryLimit"
                           label={t("memoryLimit")}
                           component={Fields.Input}
                           placeholder={t("memoryLimit")}
                           rootClassName="mb-[10px] w-full mr-[10px]"
                         />
-                      </div>
-                      <div>
                         <Field
                           required
                           name="tutorials"
@@ -283,6 +298,21 @@ const Create = () => {
                           component={Fields.Input}
                           placeholder={t("tutorial")}
                           rootClassName="mb-[10px] w-full mr-[10px]"
+                        />
+                      </div>
+                      <div className="grid grid-rows-4 w-[30%]">
+                        <Field
+                          required
+                          name="subject"
+                          url="/subjects"
+                          optionValue="_id"
+                          optionLabel="title"
+                          label={t("subjects")}
+                          placeholder={t("subjects")}
+                          component={Fields.AsyncSelect}
+                          onChange={(value: any) => {
+                            setFieldValue("subject", value);
+                          }}
                         />
                         <Field
                           required
@@ -296,20 +326,6 @@ const Create = () => {
                           onChange={(value: any) => {
                             setFieldValue("difficulty", value);
                           }}
-                          rootClassName="mb-[10px] w-full mr-[10px]"
-                        />
-                        <Field
-                          name="subject"
-                          url="/subjects/teacher/subject"
-                          optionValue="_id"
-                          optionLabel="title"
-                          label={t("subjects")}
-                          placeholder={t("subjects")}
-                          component={Fields.AsyncSelect}
-                          onChange={(value: any) => {
-                            setFieldValue("subject", value);
-                          }}
-                          rootClassName="mb-[10px] w-full mr-[10px]"
                         />
                       </div>
                     </div>
