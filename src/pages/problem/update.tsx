@@ -151,11 +151,11 @@ const Create = () => {
             name: "testCases",
             value: get(data, "testCases", []),
           },
-          {
-            type: "boolean",
-            name: "forArena",
-            value: get(data, "forArena"),
-          },
+          // {
+          //   type: "boolean",
+          //   name: "forArena",
+          //   value: get(data, "forArena"),
+          // },
         ]}
         onSuccess={() => {
           navigate("/problems");
@@ -255,7 +255,7 @@ const Create = () => {
                   <TabPane tab="Settings" key="St">
                     <div className="flex">
                       <div className="mr-[20px]">
-                        <p className="text-[#9EA3B5] px-[12px] py-[6px] bg-[#E6ECFE] dark:bg-[#454d70] rounded-[6px] inline-block mb-[12px] mr-[10px]">
+                        {/* <p className="text-[#9EA3B5] px-[12px] py-[6px] bg-[#E6ECFE] dark:bg-[#454d70] rounded-[6px] inline-block mb-[12px] mr-[10px]">
                           {t("forArena")}
                         </p>
                         <Field
@@ -263,7 +263,7 @@ const Create = () => {
                           label={t("forArena")}
                           component={Fields.Switch}
                           rootClassName="mb-[10px] bg-[#000]"
-                        />
+                        /> */}
                         <Field
                           required
                           name="point"

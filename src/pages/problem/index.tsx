@@ -78,18 +78,18 @@ const Problems = () => {
                           <div className="flex items-center">{value}</div>
                         ),
                       },
-                      {
-                        key: "forArena",
-                        align: "center",
-                        title: t("forArena"),
-                        dataIndex: "forArena",
-                        className: "w-[80px]",
-                        render: (value) => (
-                          <div className={value ? "text-green-500" : "text-red-500"}>
-                            {value ? t("ha") : t("yo'q")}
-                          </div>
-                        ),
-                      },
+                      // {
+                      //   key: "forArena",
+                      //   align: "center",
+                      //   title: t("forArena"),
+                      //   dataIndex: "forArena",
+                      //   className: "w-[80px]",
+                      //   render: (value) => (
+                      //     <div className={value ? "text-green-500" : "text-red-500"}>
+                      //       {value ? t("ha") : t("yo'q")}
+                      //     </div>
+                      //   ),
+                      // },
                       {
                         key: "description",
                         align: "center",
